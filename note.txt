@@ -1,0 +1,7 @@
+switch pour choix du menu en nombre
+
+ décomposer pour penser au plus simple
+
+window prompt renvoie une chaine de caractère
+
+mardi 8 13h
