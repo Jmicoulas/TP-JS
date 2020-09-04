@@ -15,7 +15,8 @@ class ContactManager{
       case '2':
         this.addContact();
         break;
-      case '3':// penser à rajouter la fonction ici
+      case '3':
+        this.modifyContact();
         break;
       case '4':
         this.removeContact();
@@ -24,7 +25,6 @@ class ContactManager{
         break;
       default:
         this.displayMenu();
-
     }
   }
 
@@ -41,27 +41,46 @@ class ContactManager{
     let nom = window.prompt("Entrer le nom :");
     let newContact = new contact(nom, prenom);
     this.contacts.push(newContact);
+    console.clear();
     this.contactListing();
     this.displayMenu();
   }
 
   removeContact(){
+    console.clear();
     this.contactListing();
     let id = window.prompt("Entrer le numéro du contact à supprimer");
     this.contacts.splice(parseInt(id), 1);
+    console.clear();
     this.contactListing();
     this.displayMenu();
   }
 
   modifyContact(){
     //afficher la liste > demander quel contact modifié > quel partie du contact modifié ou tout modifié un par un > rafficher la liste et retour menu
-  }
+    console.clear();
+    this.contactListing();
+    let choosingContact = window.prompt("Entrer le numéro du contact que vous voulez modifier ? "); // Comment faire pour que le choosingContact recupére un élément du array contacts?
+    console.log(choosingContact);
+    let modifyingContact = window.prompt(" Voulez-vous : \n(1) Modifié entièrement ce contact ?\n(2) En modifié une partie ?");
+    if (modifyingContact == 1) {// modifié entièrement le contact
+      this.contacts.lastName = window.prompt("Entrer un nouveau nom de famille");
+      this.contacts.firstName = window.prompt("Entrer une nouveau Prénom");
+      this.contacts.mail =  window.prompt("Entrer une nouvelle adresse mail valide");
+      this.contactListing();
+    } else if (modify2 ==2) {
 
+    }else {
+
+    }
+    }
 }
 
 
-let firstContact = new contact("Micoulas", "Jonathan", "j.micoulas@laposte.net");
-let secondContact = new contact("Beausoleil", "Sylvia", "sy.beausoleil@laposte.net");
+
+
+let firstContact = new contact("Doe", "John", "jdoe@hotmail.com");
+let secondContact = new contact("Dupont", "Alice", "a.dupont@hotmail.com");
 
 let contactManager = new ContactManager([firstContact,secondContact]);//on rajoute les contacts au array
 contactManager.displayMenu();
