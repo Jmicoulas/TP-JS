@@ -6,7 +6,7 @@ class ContactManager{
   }
 
   displayMenu(){
-    let choice = window.prompt("* 1 - Lister les contacts \n* 2 - Ajouter un nouveau contact \n* 3 - Modifier un contact existant \n* 4 - Supprimer un contact \n* 5 - Quitter le gestionnaire de contact");
+    let choice = window.prompt("* 1 - Liste des contacts \n* 2 - Ajouter un nouveau contact \n* 3 - Modifier un contact existant \n* 4 - Supprimer un contact \n* 5 - Quitter le gestionnaire de contact");
     //boucler tant que l'on ne choisis pas entre 1 et 5 et exécuter la fonction et retour menu sauf 5
     switch(choice){
       case '1':
@@ -37,8 +37,8 @@ class ContactManager{
   }
 
   addContact(){
-    let prenom = window.prompt("Entrer le prénom :");
-    let nom = window.prompt("Entrer le nom :");
+    let prenom = window.prompt("Veuillez entrer le prénom :");
+    let nom = window.prompt("Veuillez entrer le nom :");
     let newContact = new contact(nom, prenom);
     this.contacts.push(newContact);
     console.clear();
@@ -49,7 +49,7 @@ class ContactManager{
   removeContact(){
     console.clear();
     this.contactListing();
-    let id = window.prompt("Entrer le numéro du contact à supprimer");
+    let id = window.prompt("Veuillez entrer le numéro du contact à supprimer");
     this.contacts.splice(parseInt(id), 1);
     console.clear();
     this.contactListing();
@@ -60,18 +60,43 @@ class ContactManager{
     //afficher la liste > demander quel contact modifié > quel partie du contact modifié ou tout modifié un par un > rafficher la liste et retour menu
     console.clear();
     this.contactListing();
-    let choosingContact = window.prompt("Entrer le numéro du contact que vous voulez modifier ? "); // Comment faire pour que le choosingContact recupére un élément du array contacts?
+    let choosingContact = window.prompt("Veuillez entrer le numéro du contact que vous voulez modifier "); // Comment faire pour que le choosingContact recupére un élément du array contacts?
+    choosingContact = this.contacts.indexOf(parseInt(choosingContact));
     console.log(choosingContact);
-    let modifyingContact = window.prompt(" Voulez-vous : \n(1) Modifié entièrement ce contact ?\n(2) En modifié une partie ?");
+    let modifyingContact = window.prompt("Que voulez-vous faire : \n* 1 - Modifié entièrement le contact\n* 2 - En modifié une partie");
     if (modifyingContact == 1) {// modifié entièrement le contact
-      this.contacts.lastName = window.prompt("Entrer un nouveau nom de famille");
-      this.contacts.firstName = window.prompt("Entrer une nouveau Prénom");
-      this.contacts.mail =  window.prompt("Entrer une nouvelle adresse mail valide");
+      contact.lastName = window.prompt("Veuillez entrer un nouveau nom de famille");
+      contact.firstName = window.prompt("Veuillez entrer une nouveau Prénom");
+      contact.mail =  window.prompt("Veuillez entrer une nouvelle adresse mail valide");
       this.contactListing();
-    } else if (modify2 ==2) {
-
+    } else if (modifyingContact ==2) {
+      let choosingPara =  window.prompt("Que voulez-vous modifié : \n* 1 - le nom\n* 2 - le prénom\n* 3 - le mail")
+      switch (choosingPara) {
+        case '1':
+          this.contacts.lastName = window.prompt("Veuillez entrer un nouveau nom de famille");
+          console.clear();
+          this.contactListing();
+          this.displayMenu();
+          break;
+        case '2':
+          this.contacts.firstName = window.prompt("Veuillez entrer une nouveau Prénom");
+          console.clear();
+          this.contactListing();
+          this.displayMenu();
+          break;
+        case '3':
+          this.contacts.mail =  window.prompt("Veuillez entrer une nouvelle adresse mail valide");
+          console.clear();
+          this.contactListing();
+          this.displayMenu();
+          break;
+        default:
+          let error = alert("Erreur, veuillez recommencer!");
+          break;
+      }
     }else {
-
+      let error = alert("Erreur, veuillez recommencer!");
+      this.modifyContact();
     }
     }
 }
