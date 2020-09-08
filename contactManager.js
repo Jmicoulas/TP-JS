@@ -1,8 +1,8 @@
 
 class ContactManager{
-  constructor(contacts=[])
+  constructor()
   {
-    this.contacts=contacts;
+    this.contacts = localStorage.getItem("myContact") ? JSON.parse(localStorage.getItem("myContact")) : []; // ? : si quelque chose dans localstorage, on le récupére en JSon, : sinon array vide.
   }
 
   displayMenu(){
@@ -11,15 +11,19 @@ class ContactManager{
     switch(choice){
       case '1':
         this.contactListing();
+        this.displayMenu();
         break;
       case '2':
         this.addContact();
+        this.displayMenu();
         break;
       case '3':
         this.modifyContact();
+        this.displayMenu();
         break;
       case '4':
         this.removeContact();
+        this.displayMenu();
         break;
       case'5':
         break;
@@ -33,7 +37,7 @@ class ContactManager{
     for (let i = 0; i < this.contacts.length; i++){
       console.log(i + " - Nom : " + this.contacts[i].lastName + " || Prénom: " + this.contacts[i].firstName + " || email: " + this.contacts[i].mail);//on parcourt le array
     }
-    this.displayMenu();//this. pour rappeler une fonction dans la classe
+    //this.displayMenu();//this. pour rappeler une fonction dans la classe
   }
 
   addContact(){
@@ -43,7 +47,7 @@ class ContactManager{
     this.contacts.push(newContact);
     console.clear();
     this.contactListing();
-    this.displayMenu();
+    this.updateStorage();
   }
 
   removeContact(){
@@ -53,7 +57,7 @@ class ContactManager{
     this.contacts.splice(parseInt(id), 1);
     console.clear();
     this.contactListing();
-    this.displayMenu();
+    this.updateStorage();
   }
 
   modifyContact(){
@@ -61,7 +65,7 @@ class ContactManager{
     console.clear();
     this.contactListing();
     let choosingContact = window.prompt("Veuillez entrer le numéro du contact que vous voulez modifier "); // Comment faire pour que le choosingContact recupére un élément du array contacts?
-    choosingContact = this.contacts.indexOf(parseInt(choosingContact));
+    let contact = this.contacts[parseInt(choosingContact)];
     console.log(choosingContact);
     let modifyingContact = window.prompt("Que voulez-vous faire : \n* 1 - Modifié entièrement le contact\n* 2 - En modifié une partie");
     if (modifyingContact == 1) {// modifié entièrement le contact
@@ -69,26 +73,23 @@ class ContactManager{
       contact.firstName = window.prompt("Veuillez entrer une nouveau Prénom");
       contact.mail =  window.prompt("Veuillez entrer une nouvelle adresse mail valide");
       this.contactListing();
-    } else if (modifyingContact ==2) {
+    } else if (modifyingContact == 2) {
       let choosingPara =  window.prompt("Que voulez-vous modifié : \n* 1 - le nom\n* 2 - le prénom\n* 3 - le mail")
       switch (choosingPara) {
         case '1':
-          this.contacts.lastName = window.prompt("Veuillez entrer un nouveau nom de famille");
+          contact.lastName = window.prompt("Veuillez entrer un nouveau nom de famille");
           console.clear();
           this.contactListing();
-          this.displayMenu();
           break;
         case '2':
-          this.contacts.firstName = window.prompt("Veuillez entrer une nouveau Prénom");
+          contact.firstName = window.prompt("Veuillez entrer une nouveau Prénom");
           console.clear();
           this.contactListing();
-          this.displayMenu();
           break;
         case '3':
-          this.contacts.mail =  window.prompt("Veuillez entrer une nouvelle adresse mail valide");
+          contact.mail =  window.prompt("Veuillez entrer une nouvelle adresse mail valide");
           console.clear();
           this.contactListing();
-          this.displayMenu();
           break;
         default:
           let error = alert("Erreur, veuillez recommencer!");
@@ -98,16 +99,16 @@ class ContactManager{
       let error = alert("Erreur, veuillez recommencer!");
       this.modifyContact();
     }
+    this.updateStorage();
     }
-}
+    updateStorage(){
+      localStorage.setItem("myContact", JSON.stringify(this.contacts));
+      }
+    }
 
 
 
-
-let firstContact = new contact("Doe", "John", "jdoe@hotmail.com");
-let secondContact = new contact("Dupont", "Alice", "a.dupont@hotmail.com");
-
-let contactManager = new ContactManager([firstContact,secondContact]);//on rajoute les contacts au array
+let contactManager = new ContactManager();
 contactManager.displayMenu();
 
 
